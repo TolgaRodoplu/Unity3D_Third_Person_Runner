@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player_Controller : MonoBehaviour
 {
     Rigidbody rb { get { return GetComponent<Rigidbody>(); } }
-    float forward_speed = 5f;
+    float forward_speed = 10f;
     float horizontal_speed = 0.5f;
     Vector3 move;
 
