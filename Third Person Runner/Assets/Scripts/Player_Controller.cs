@@ -5,28 +5,30 @@ using UnityEngine;
 public class Player_Controller : MonoBehaviour
 {
     Rigidbody rb { get { return GetComponent<Rigidbody>(); } }
-    float forward_speed = 10f;
-    float horizontal_speed = 0.5f;
-    Vector3 move;
+    float forward_speed = 20f;
+    float horizontal_speed = 10f;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    Vector3 destination;
 
     void Update()
     {
-        var axis = Input.GetAxis("Horizontal");
-        var horizontal_vect = transform.right * horizontal_speed * axis;
-        var vertical_vect = transform.forward * forward_speed;
-        move = transform.position + (horizontal_vect + vertical_vect * Time.fixedDeltaTime);
+        destination.x = Input.GetAxis("Horizontal") * forward_speed;
+        destination.z = Input.GetAxis("Vertical") * horizontal_speed;
+        Debug.Log(rb.velocity);
     }
 
-    // Update is called once per frame
+
     void FixedUpdate()
     {
-        rb.MovePosition(move);    
+        destination = rb.position + destination * Time.fixedDeltaTime;
+
+        rb.MovePosition(destination);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag.Equals("obstacle"))
+            rb.AddForce(collision.GetContact(0).normal * 100f, ForceMode.Impulse);
     }
 
 }

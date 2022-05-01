@@ -7,7 +7,7 @@ public class Horizontal_Obstacle_Move : MonoBehaviour
 {
     Rigidbody rb { get { return GetComponent<Rigidbody>(); } }
 
-    float speed = 5f;
+    public float speed = 10f;
 
     public Transform pos_1;
     public Transform pos_2;
@@ -27,6 +27,7 @@ public class Horizontal_Obstacle_Move : MonoBehaviour
         {
             destination = pos_2.position;
         }
+
         else if (Vector3.Distance(current_pos, pos_2.position) <= 0.2)
         {
             destination = pos_1.position;
