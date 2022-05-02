@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3840413934125588834}
   m_Layer: 0
   m_Name: Rotator
-  m_TagString: Untagged
+  m_TagString: obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -126,3 +126,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af2789cea40dd2044bc181854190d296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rotation_speed: 100
