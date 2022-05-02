@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5623873215152807511}
   - component: {fileID: 8765088382453502450}
   - component: {fileID: 6793449381755069752}
-  - component: {fileID: 987063465704848177}
   m_Layer: 0
   m_Name: Rotating_Platform_Base
   m_TagString: Untagged
@@ -82,20 +81,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &987063465704848177
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4992189919074190573}
-  m_Material: {fileID: 13400000, guid: d9a9f0c3fc76b7041a5fa42d484f356b, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.3266149
-  m_Height: 1.15
-  m_Direction: 2
-  m_Center: {x: 0.000000029802322, y: -0.000000029802322, z: 0}
 --- !u!1 &5302443966653487719
 GameObject:
   m_ObjectHideFlags: 0
@@ -107,6 +92,7 @@ GameObject:
   - component: {fileID: 5302443966653487714}
   - component: {fileID: 5302443966653487713}
   - component: {fileID: 5302443966653487712}
+  - component: {fileID: 7636764546027214832}
   m_Layer: 0
   m_Name: Rotating_Platform
   m_TagString: Untagged
@@ -158,3 +144,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotation_speed: 100
+--- !u!136 &7636764546027214832
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5302443966653487719}
+  m_Material: {fileID: 13400000, guid: 34923e6e01efffa409e98d21b69ae845, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 3.2525256
+  m_Height: 11.528132
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.05114937, z: 0.011856079}

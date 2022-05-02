@@ -5,30 +5,36 @@ using UnityEngine;
 public class Player_Controller : MonoBehaviour
 {
     Rigidbody rb { get { return GetComponent<Rigidbody>(); } }
-    float forward_speed = 20f;
-    float horizontal_speed = 10f;
+    float forward_force_scale = 70f;
+    float right_force_scale = 70f;
+    float clamp_value = 15f;
 
-    Vector3 destination;
+    float input;
 
     void Update()
     {
-        destination.x = Input.GetAxis("Horizontal") * forward_speed;
-        destination.z = Input.GetAxis("Vertical") * horizontal_speed;
+        input = Input.GetAxis("Horizontal");
         Debug.Log(rb.velocity);
+        
     }
 
 
     void FixedUpdate()
     {
-        destination = rb.position + destination * Time.fixedDeltaTime;
+        var right = transform.right * input * right_force_scale;
+        var forward = transform.forward * forward_force_scale;
+        rb.AddForce(right + forward);
 
-        rb.MovePosition(destination);
+        var x = Mathf.Clamp(rb.velocity.x, -clamp_value, clamp_value);
+        var z = Mathf.Clamp(rb.velocity.z, -clamp_value, clamp_value);
+        var y = rb.velocity.y;
+        rb.velocity = new Vector3(x, y, z);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.tag.Equals("obstacle"))
-            rb.AddForce(collision.GetContact(0).normal * 100f, ForceMode.Impulse);
+            rb.AddForce(collision.GetContact(0).normal * 35f, ForceMode.VelocityChange);
     }
 
 }
