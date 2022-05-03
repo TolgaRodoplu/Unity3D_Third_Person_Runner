@@ -14,8 +14,6 @@ public class Player_Controller : MonoBehaviour
     void Update()
     {
         input = Input.GetAxis("Horizontal");
-        Debug.Log(rb.velocity);
-        
     }
 
 
@@ -36,5 +34,9 @@ public class Player_Controller : MonoBehaviour
         if(collision.gameObject.tag.Equals("obstacle"))
             rb.AddForce(collision.GetContact(0).normal * 35f, ForceMode.VelocityChange);
     }
-
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.name.Equals("Finish_Line"))
+            gameObject.GetComponent<Transition>().enabled = true;
+    }
 }
