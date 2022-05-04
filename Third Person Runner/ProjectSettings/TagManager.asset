@@ -7,6 +7,8 @@ TagManager:
   - obstacle
   - painting_wall
   - Brush
+  - character
+  - water
   layers:
   - Default
   - TransparentFX

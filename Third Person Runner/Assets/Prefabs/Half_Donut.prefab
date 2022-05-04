@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2584292295628729855}
   m_Layer: 0
   m_Name: MovingStick
-  m_TagString: Untagged
+  m_TagString: obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -253,8 +253,8 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.13900849
-  m_Center: {x: -0.12772849, y: 0, z: 0.0020521642}
+  m_Radius: 0.09464948
+  m_Center: {x: -0.08336947, y: 0, z: 0.0020521642}
 --- !u!54 &6310102947667727569
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -297,7 +297,7 @@ GameObject:
   - component: {fileID: 4744738875475366089}
   m_Layer: 0
   m_Name: Half_Donut
-  m_TagString: Untagged
+  m_TagString: obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

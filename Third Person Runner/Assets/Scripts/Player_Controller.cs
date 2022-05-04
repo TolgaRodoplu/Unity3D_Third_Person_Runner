@@ -2,38 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player_Controller : MonoBehaviour
+public class Player_Controller : Character_Controller
 {
-    Rigidbody rb { get { return GetComponent<Rigidbody>(); } }
-    float forward_force_scale = 70f;
-    float right_force_scale = 70f;
-    float clamp_value = 15f;
-
-    float input;
-
     void Update()
     {
         input = Input.GetAxis("Horizontal");
     }
 
-
     void FixedUpdate()
     {
         var right = transform.right * input * right_force_scale;
         var forward = transform.forward * forward_force_scale;
-        rb.AddForce(right + forward);
-
-        var x = Mathf.Clamp(rb.velocity.x, -clamp_value, clamp_value);
-        var z = Mathf.Clamp(rb.velocity.z, -clamp_value, clamp_value);
-        var y = rb.velocity.y;
-        rb.velocity = new Vector3(x, y, z);
+        Move(right, forward);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.tag.Equals("obstacle"))
+        if (collision.gameObject.tag.Equals("obstacle") || collision.gameObject.tag.Equals("character"))
             rb.AddForce(collision.GetContact(0).normal * 35f, ForceMode.VelocityChange);
+
+        if (collision.gameObject.tag.Equals("water"))
+            transform.position = respawn_pos;
     }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.name.Equals("Finish_Line"))
