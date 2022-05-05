@@ -30,7 +30,7 @@ public class Paint : MonoBehaviour
             hit.transform.GetComponent<MeshRenderer>().material = red_paint;
             painted += 1f;
             var painted_percent = ((painted / 260) * 100);
-            gameObject.GetComponent<Game_Maneger>().Update_Percent((int)painted_percent);
+            FindObjectOfType<Game_Maneger>().Update_Percent((int)painted_percent);
 
             if (painted_percent == 100)
             {

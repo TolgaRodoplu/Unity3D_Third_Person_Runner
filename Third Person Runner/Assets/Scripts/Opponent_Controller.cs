@@ -15,15 +15,39 @@ public class Opponent_Controller : Character_Controller
 
     private void FixedUpdate()
     {
+
+        Avoid();
+        Move();
+
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag.Equals("obstacle") || collision.gameObject.tag.Equals("water"))
+            transform.position = respawn_pos;
+
+        if (collision.gameObject.tag.Equals("character"))
+            rb.AddForce(collision.GetContact(0).normal * 35f, ForceMode.VelocityChange);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+
+        if (other.name.Equals("Finish_Line"))
+            gameObject.SetActive(false);
+
+    }
+    void Avoid()
+    {
         Ray ray = new Ray(ray_origin.position, transform.forward);
         RaycastHit hit;
 
-        
 
-        if((Physics.Raycast(ray, out hit)) && (hit.collider.tag.Equals("obstacle")))
+
+        if ((Physics.Raycast(ray, out hit)) && (hit.collider.tag.Equals("obstacle")))
         {
 
-            if((Vector3.Distance(hit.point, transform.position) < sense_distance))
+            if ((Vector3.Distance(hit.point, transform.position) < sense_distance))
             {
 
                 if ((hit.point.x < hit.collider.transform.position.x))
@@ -59,27 +83,6 @@ public class Opponent_Controller : Character_Controller
             else
                 input = 1f;
         }
-
-        Move();
-
     }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag.Equals("obstacle") || collision.gameObject.tag.Equals("water"))
-            transform.position = respawn_pos;
-
-        if (collision.gameObject.tag.Equals("character"))
-            rb.AddForce(collision.GetContact(0).normal * 35f, ForceMode.VelocityChange);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-
-        if (other.name.Equals("Finish_Line"))
-            gameObject.SetActive(false);
-
-    }
-
 
 }

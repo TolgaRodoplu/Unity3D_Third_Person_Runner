@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Player_Controller : Character_Controller
 {
-    public Transform[] characters = new Transform[11];
-    int player_index = 0;
-    public Animator anim_controller;
+    
 
     private void Start()
     {
         GetComponent<Animator>().SetBool("isRunning", true);
+
+        Transform[] characters = FindObjectOfType<Game_Maneger>().characters;
 
         for (int i = 1; i < characters.Length; i++)
         {
@@ -20,10 +20,7 @@ public class Player_Controller : Character_Controller
 
     void Update()
     {
-       
-        Bubble_Sort();
-        GetComponent<Game_Maneger>().Update_Rank(player_index + 1);
-        
+        FindObjectOfType<Game_Maneger>().Update_Rank();
         input = Input.GetAxis("Horizontal");
     }
 
@@ -32,29 +29,7 @@ public class Player_Controller : Character_Controller
         Move();
     }
 
-    void Bubble_Sort()
-    {
-        for (int i = 0; i < characters.Length; i++)
-        {
-            for (int j = 0; j < characters.Length; j++)
-            {
-
-                if (characters[i].position.z > characters[j].position.z)
-                {
-                    if (j == player_index)
-                        player_index = i;
-
-                    else if (i == player_index)
-                        player_index = j;
-
-                    Transform temp = characters[i];
-                    characters[i] = characters[j];
-                    characters[j] = temp;
-                }
-
-            }
-        }
-    }
+    
 
 
     private void OnCollisionEnter(Collision collision)
