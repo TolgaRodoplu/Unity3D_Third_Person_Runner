@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Obstacle_Rotate : MonoBehaviour
 {
-    
     Rigidbody rb { get { return GetComponent<Rigidbody>(); } }
     public float rotation_speed = 100;
     Quaternion rotate;

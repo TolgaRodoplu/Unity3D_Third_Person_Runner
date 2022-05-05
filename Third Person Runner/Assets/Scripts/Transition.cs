@@ -6,7 +6,7 @@ public class Transition : MonoBehaviour
 {
     Camera cam { get { return Camera.main; } }
     public Transform end_pos;
-
+    
     // Start is called before the first frame update
     private void OnEnable()
     {
@@ -27,8 +27,7 @@ public class Transition : MonoBehaviour
 
     private void OnDisable()
     {
-
+        gameObject.GetComponent<Game_Maneger>().Update_Percent(0);
         gameObject.GetComponent<Paint>().enabled = true;
-
     }
 }

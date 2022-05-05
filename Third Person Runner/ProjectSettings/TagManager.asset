@@ -9,6 +9,7 @@ TagManager:
   - Brush
   - character
   - water
+  - pixel
   layers:
   - Default
   - TransparentFX
