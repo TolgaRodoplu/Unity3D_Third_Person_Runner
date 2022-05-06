@@ -18631,7 +18631,7 @@ GameObject:
   - component: {fileID: 1177824570}
   - component: {fileID: 1177824569}
   m_Layer: 5
-  m_Name: Countdown
+  m_Name: Complated
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18646,7 +18646,7 @@ RectTransform:
   m_GameObject: {fileID: 1177824567}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 1}
   m_Children: []
   m_Father: {fileID: 1467562909}
   m_RootOrder: 1
@@ -18676,7 +18676,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Stage Complated!
+  m_text: Stage Completed!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 79459efec17a4d00a321bdcc27bbc385, type: 2}

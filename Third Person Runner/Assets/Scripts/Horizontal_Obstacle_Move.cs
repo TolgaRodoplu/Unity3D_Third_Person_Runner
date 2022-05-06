@@ -21,19 +21,17 @@ public class Horizontal_Obstacle_Move : MonoBehaviour
 
     void FixedUpdate()
     {
-        var current_pos = transform.position;
-
-        if (Vector3.Distance(current_pos, pos_1.position) <= 0.2)
+        if (Vector3.Distance(transform.position, pos_1.position) <= 0.2)
         {
             destination = pos_2.position;
         }
 
-        else if (Vector3.Distance(current_pos, pos_2.position) <= 0.2)
+        else if (Vector3.Distance(transform.position, pos_2.position) <= 0.2)
         {
             destination = pos_1.position;
         }
 
-        var target = (destination - current_pos).normalized;
-        rb.MovePosition(current_pos + target * speed * Time.fixedDeltaTime);
+        var target = (destination - transform.position).normalized;
+        rb.MovePosition(transform.position + target * speed * Time.fixedDeltaTime);
     }
 }
