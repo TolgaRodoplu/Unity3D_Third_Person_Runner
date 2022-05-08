@@ -10,6 +10,7 @@ public class Game_Maneger : MonoBehaviour
     public TextMeshProUGUI countdown;
     public Transform[] characters = new Transform[11];
     int player_index = 0;
+    public GameObject End_Canvas;
 
     //Update the painted percent in UI
     public void Update_Percent(int new_percent)
@@ -50,4 +51,11 @@ public class Game_Maneger : MonoBehaviour
             }
         }
     }
+
+    public void Activate_End_Canvas()
+    {
+        End_Canvas.SetActive(true);
+    }
+    
+
 }

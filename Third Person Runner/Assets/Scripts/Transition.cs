@@ -28,6 +28,6 @@ public class Transition : MonoBehaviour
     private void OnDisable()
     {
         gameObject.GetComponent<Game_Maneger>().Update_Percent(0);
-        gameObject.GetComponent<Paint>().enabled = true;
+        FindObjectOfType<Paint>().enabled = true;
     }
 }

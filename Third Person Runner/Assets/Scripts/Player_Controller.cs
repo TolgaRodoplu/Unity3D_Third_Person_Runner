@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class Player_Controller : Character_Controller
 {
+    float swerve_scale = 1f;
+    Vector3 mouse_start = Vector3.zero;
+    Vector3 mouse_end = Vector3.zero;
+
     private void Start()
     {
         //Start the running animation when script activated
@@ -24,8 +28,24 @@ public class Player_Controller : Character_Controller
     {
         FindObjectOfType<Game_Maneger>().Update_Rank();
 
-        //Get the player input
-        input = Input.GetAxis("Horizontal");
+        if (Input.GetMouseButtonDown(0))
+        {
+            mouse_start = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+        }
+
+        else if (Input.GetMouseButton(0))
+        {
+            mouse_end = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+            input = (mouse_end.x - mouse_start.x) * 200f;
+            mouse_start = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            input = 0f;
+            
+        }
+
+
     }
 
     void FixedUpdate()

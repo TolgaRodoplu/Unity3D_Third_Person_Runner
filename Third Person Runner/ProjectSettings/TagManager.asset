@@ -11,6 +11,7 @@ TagManager:
   - water
   - pixel
   - Unpaintable
+  - painted
   layers:
   - Default
   - TransparentFX

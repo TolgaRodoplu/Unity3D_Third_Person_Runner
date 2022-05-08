@@ -16,23 +16,32 @@ public class Paint : MonoBehaviour
     public Transform[,] canvas;
     int brush_col = 0;
     int brush_row = 0;
-
+    float painted = 0f;
+    float total;
     public Material Paint_Mat;
+
 
     private void Start()
     {
         canvas = new Transform[col, row];
 
         var child = 5;
+        float unpaintable = 0;
 
         for (int i = 0; i < col; i++)
         {
             for (int j = 0; j < row; j++)
             {
                 canvas[i, j] = transform.parent.GetChild(child);
+
+                if (canvas[i, j].tag.Equals("Unpaintable"))
+                    unpaintable++;
+
                 child++;
             }
         }
+
+        total = (col * row) - unpaintable;
     }
 
     // Update is called once per frame
@@ -67,8 +76,24 @@ public class Paint : MonoBehaviour
         {
             if (transform.position == target.position)
             {
-                if(!target.GetComponent<MeshRenderer>().material.name.Equals("red_paint(Instance)"))
+                if(!target.tag.Equals("painted"))
+                {
                     target.GetComponent<MeshRenderer>().material = Paint_Mat;
+
+                    target.tag = "painted";
+
+                    painted += 1f;
+
+                    var percent = (painted / total) * 100;
+
+                    FindObjectOfType<Game_Maneger>().Update_Percent((int)percent);
+
+                    if(percent == 100)
+                    {
+                        FindObjectOfType<Game_Maneger>().Activate_End_Canvas();
+                        this.enabled = false;
+                    }
+                }
 
                 if (Check_if_Movable())
                     isMoving = false;
@@ -90,7 +115,7 @@ public class Paint : MonoBehaviour
 
     bool Check_if_Movable()
     {
-        if ((brush_col - (int)input.y >= 0) && (brush_col - (int)input.y < col) && (brush_row + (int)input.x >= 0) && (brush_row + (int)input.x < row) && canvas[brush_col - (int)input.y, brush_row + (int)input.x].tag.Equals("pixel"))
+        if ((brush_col - (int)input.y >= 0) && (brush_col - (int)input.y < col) && (brush_row + (int)input.x >= 0) && (brush_row + (int)input.x < row) && (canvas[brush_col - (int)input.y, brush_row + (int)input.x].tag.Equals("pixel") || canvas[brush_col - (int)input.y, brush_row + (int)input.x].tag.Equals("painted")))
         {
             brush_col -= (int)input.y;
             brush_row += (int)input.x;
