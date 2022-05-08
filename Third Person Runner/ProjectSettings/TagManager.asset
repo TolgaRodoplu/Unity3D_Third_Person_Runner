@@ -10,6 +10,7 @@ TagManager:
   - character
   - water
   - pixel
+  - Unpaintable
   layers:
   - Default
   - TransparentFX

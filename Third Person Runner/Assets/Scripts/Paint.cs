@@ -5,46 +5,109 @@ using UnityEngine;
 
 public class Paint : MonoBehaviour
 {
-    Camera cam { get { return Camera.main; } }
-    public Material red_paint;
-    float painted = 0f;
-    public GameObject end_canvas;
+    Vector3 input;
+    bool isMoving = false;
+    float speed = 40f;
+    Transform target;
+    Vector3 mouse_start = Vector3.zero;
+    Vector3 mouse_end = Vector3.zero;
+    int col = 5;
+    int row = 8;
+    public Transform[,] canvas;
+    int brush_col = 0;
+    int brush_row = 0;
+
+    public Material Paint_Mat;
+
+    private void Start()
+    {
+        canvas = new Transform[col, row];
+
+        var child = 5;
+
+        for (int i = 0; i < col; i++)
+        {
+            for (int j = 0; j < row; j++)
+            {
+                canvas[i, j] = transform.parent.GetChild(child);
+                child++;
+            }
+        }
+    }
 
     // Update is called once per frame
     void Update()
     {
-        //If mouse button is pressed paint the wall
-        if (Input.GetMouseButton(0))
-            Paint_Object();
-
-    }
-
-    void Paint_Object()
-    {
-        //Define a ray from the camera
-        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-
-        //If the ray hit and the object is pixel and it is not already painted
-        if((Physics.Raycast(ray, out hit)) && (hit.collider.tag.Equals("pixel")) && !(hit.collider.gameObject.GetComponent<MeshRenderer>().material.name.Equals("red_paint (Instance)")))
+        
+        if (!isMoving)
         {
-            //Change the hit objects material to red paint
-            hit.transform.GetComponent<MeshRenderer>().material = red_paint;
-
-            //increment the painted square count
-            painted += 1f;
-
-            //Get the percentage of the painted portion
-            var painted_percent = ((painted / 260) * 100);
-
-            //Update the percent in UI
-            FindObjectOfType<Game_Maneger>().Update_Percent((int)painted_percent);
-
-            //If all of the canvas is painted activate the end screen
-            if (painted_percent == 100)
+            if (Input.GetMouseButtonDown(0))
             {
-                end_canvas.SetActive(true);
+                mouse_start = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+            }
+            if (Input.GetMouseButtonUp(0))
+            {
+
+                mouse_end = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+                input = mouse_end - mouse_start;
+                
+
+                if (Mathf.Abs(input.x) > Mathf.Abs(input.y))
+                    input = transform.right * input.x;
+
+                if (Mathf.Abs(input.y) > Mathf.Abs(input.x))
+                    input = transform.forward * input.y;
+
+                input = input.normalized;
+                Check_if_Movable();
             }
         }
+
+        if (isMoving)
+        {
+            if (transform.position == target.position)
+            {
+                if(!target.GetComponent<MeshRenderer>().material.name.Equals("red_paint(Instance)"))
+                    target.GetComponent<MeshRenderer>().material = Paint_Mat;
+
+                if (Check_if_Movable())
+                    isMoving = false;
+            }
+
+            else
+                transform.position = Vector3.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
+        }
+
+
+
     }
+
+    private void FixedUpdate()
+    {
+       
+        
+    }
+
+    bool Check_if_Movable()
+    {
+        if ((brush_col - (int)input.y >= 0) && (brush_col - (int)input.y < col) && (brush_row + (int)input.x >= 0) && (brush_row + (int)input.x < row) && canvas[brush_col - (int)input.y, brush_row + (int)input.x].tag.Equals("pixel"))
+        {
+            brush_col -= (int)input.y;
+            brush_row += (int)input.x;
+            target = canvas[brush_col, brush_row];
+            isMoving = true;
+            return false;
+        }
+
+            else
+                return true;
+
+    }
+
+        
+
+
+   
+
+
 }
