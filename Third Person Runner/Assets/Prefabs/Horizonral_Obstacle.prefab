@@ -149,6 +149,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9062731920671201962, guid: 692ae0af4db4a22428195731805f0ce3, type: 3}
+      propertyPath: pos1
+      value: 
+      objectReference: {fileID: 4964666477299610984}
+    - target: {fileID: 9062731920671201962, guid: 692ae0af4db4a22428195731805f0ce3, type: 3}
+      propertyPath: pos2
+      value: 
+      objectReference: {fileID: 4489683330105372007}
+    - target: {fileID: 9062731920671201962, guid: 692ae0af4db4a22428195731805f0ce3, type: 3}
       propertyPath: pos_1
       value: 
       objectReference: {fileID: 4964666477299610984}

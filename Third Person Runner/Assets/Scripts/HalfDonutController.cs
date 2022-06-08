@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Half_Donut_Move : MonoBehaviour
+public class HalfDonutController : MonoBehaviour
 {
     Rigidbody rb { get { return GetComponent<Rigidbody>(); } }
 
@@ -27,7 +27,6 @@ public class Half_Donut_Move : MonoBehaviour
 
     void FixedUpdate()
     {
-        
 
         if (Vector3.Distance(transform.position, pos_1.position) <= 0.2)
         {

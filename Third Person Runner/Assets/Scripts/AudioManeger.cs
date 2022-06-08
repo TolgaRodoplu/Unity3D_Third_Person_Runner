@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-public class Audio_Maneger : MonoBehaviour
+public class AudioManeger : MonoBehaviour
 {
     //Array of sounds
     public Sound[] sounds;

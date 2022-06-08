@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Menu_Maneger : MonoBehaviour
+public class MenuManeger : MonoBehaviour
 {
-    public void Star_Restart_Game()
+    public void StartRestartGame()
     {
         SceneManager.LoadScene("Main");
     }
-    public void Return_to_Menu()
+    public void ReturnToMenu()
     {
         SceneManager.LoadScene("Menu");
     }

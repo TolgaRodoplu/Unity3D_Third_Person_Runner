@@ -1,53 +1,55 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 
 public class Countdown : MonoBehaviour
 {
-    
-    public int countdown_time = 3;
-    public TextMeshProUGUI countdown_text;
+    public int countdownTime = 3;
 
     private void Start()
     {
-        StartCoroutine(Start_Countdown());
+        //Register to the gameStarted event
+        EventSystem.instance.gameStarted += CountdownStart;
     }
 
-    IEnumerator Start_Countdown()
+    void CountdownStart()
+    {
+        StartCoroutine(CountdownTimer());
+    }
+
+    IEnumerator CountdownTimer()
     {
         //Play the countdown audio
-        FindObjectOfType<Audio_Maneger>().Play("Countdown");
+        FindObjectOfType<AudioManeger>().Play("Countdown");
 
 
-        while(countdown_time > 0)
+        while(countdownTime > 0)
         {
             //Write the time in UI
-            countdown_text.text = countdown_time.ToString();
+            EventSystem.instance.UpdateCountdown(countdownTime.ToString());
 
             //Wait for 1 second
             yield return new WaitForSeconds(1f);
 
             //decrement the timer
-            countdown_time--;
+            countdownTime--;
         }
 
-        //When timer hit zero write GO! in UI
-        countdown_text.text = "GO!";
+        //Write the time in UI
+        EventSystem.instance.UpdateCountdown("GO!");
 
-        //Start Game
-        GetComponent<Player_Controller>().enabled = true;
+        EventSystem.instance.StartRunning();
 
         //Wait for 1 second
         yield return new WaitForSeconds(1f);
 
-        //disable the countdown in UI
-        countdown_text.gameObject.SetActive(false);
+        //Write the time in UI
+        EventSystem.instance.UpdateCountdown("");
 
         //Play and loop the background music
         FindObjectOfType<AudioSource>().loop = true;
 
-        FindObjectOfType<Audio_Maneger>().Play("Background");
+        FindObjectOfType<AudioManeger>().Play("Background");
 
         //disable this script
         this.enabled = false;
