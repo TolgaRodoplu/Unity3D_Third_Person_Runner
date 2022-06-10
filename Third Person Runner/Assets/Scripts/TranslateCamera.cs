@@ -8,10 +8,11 @@ public class TranslateCamera : MonoBehaviour
 
     private void Start()
     {
-        EventSystem.instance.runningStopped += StartTranslate;
+        //Register to the appropriate event
+        EventSystem.instance.cameraTranslateStarted += StartTranslate;
     }
 
-    void StartTranslate()
+    private void StartTranslate()
     {
         StartCoroutine(CameraTranslate());
     }
@@ -27,7 +28,7 @@ public class TranslateCamera : MonoBehaviour
             yield return null;
         }
 
-        EventSystem.instance.runningStopped -= StartTranslate;
+        EventSystem.instance.cameraTranslateStarted -= StartTranslate;
         EventSystem.instance.StartPainting();
         this.enabled = false;
     }

@@ -5,9 +5,8 @@ using System;
 
 public class EventSystem : MonoBehaviour
 {
-
     public static EventSystem instance;
-    public event Action gameStarted,  runningStarted, runningStopped, paintingStarted, paintingStopped, gameEnded;
+    public event Action gameStarted, countdownStarted, runningStarted, runningStopped, cameraTranslateStarted, paintingStarted, paintingStopped, gameEnded;
     public event EventHandler<string> countdownUpdated;
     public event EventHandler<int> rankUpdated, percentUpdated;
     bool isStarted = false;
@@ -23,6 +22,7 @@ public class EventSystem : MonoBehaviour
         {
             isStarted = true;
             StartGame();
+            StartCountdown();
         }
     }
 
@@ -30,6 +30,12 @@ public class EventSystem : MonoBehaviour
     {
         Debug.Log("GameStarted");
         gameStarted?.Invoke();
+    }
+
+    public void StartCountdown()
+    {
+        Debug.Log("StartCountdown");
+        countdownStarted?.Invoke();
     }
 
     public void StartRunning()
@@ -43,7 +49,13 @@ public class EventSystem : MonoBehaviour
         Debug.Log("StopRunning");
         runningStopped?.Invoke();
     }
-    
+
+    public void StartCameraTranslate()
+    {
+        Debug.Log("StartCameraTranslate");
+        cameraTranslateStarted?.Invoke();
+    }
+
     public void StartPainting()
     {
         Debug.Log("StartPainting");

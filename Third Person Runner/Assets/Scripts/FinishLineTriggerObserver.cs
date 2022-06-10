@@ -9,6 +9,7 @@ public class FinishLineTriggerObserver : MonoBehaviour
         if (other.name.Equals("Player"))
         {
             EventSystem.instance.StopRunning();
+            EventSystem.instance.StartCameraTranslate();
         }
     }
 }

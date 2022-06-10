@@ -6,12 +6,13 @@ using UnityEngine;
 public class PlayerController : CharacterController
 {
     float swerve_scale = 1f;
-    Vector3 mouse_start = Vector3.zero;
-    Vector3 mouse_end = Vector3.zero;
+    private Vector3 mouse_start = Vector3.zero;
+    private Vector3 mouse_end = Vector3.zero;
 
-    void Update()
+    private void Update()
     {
-        GetInput();
+        if(isRunning)
+            GetInput();
     }
 
     private void GetInput()

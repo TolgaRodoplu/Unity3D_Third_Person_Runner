@@ -5,24 +5,25 @@ using UnityEngine;
 
 public class BrushController : MonoBehaviour
 {
-    Vector3 input;
-    bool isMoving = false;
-    float speed = 40f;
-    Transform target;
-    Vector3 mouse_start = Vector3.zero;
-    Vector3 mouse_end = Vector3.zero;
-    int col = 5;
-    int row = 8;
+    private Vector3 input;
+    private Vector3 mouse_start = Vector3.zero;
+    private Vector3 mouse_end = Vector3.zero;
+    private bool canPaint = false;
+    private bool isMoving = false;
+    private int brush_col = 0;
+    private int brush_row = 0;
+    private float speed = 40f;
+    private float painted = 0f;
+    private float total;
+    private int col = 5;
+    private int row = 8;
     public Transform[,] canvas;
-    int brush_col = 0;
-    int brush_row = 0;
-    float painted = 0f;
-    float total;
+    private Transform target;
     public Material Paint_Mat;
-    bool canPaint = false;
 
     private void Start()
     {
+        //Register to the appropriate event
         EventSystem.instance.paintingStarted += StartPainting;
         EventSystem.instance.gameEnded += StopPainting;
     }
@@ -33,47 +34,6 @@ public class BrushController : MonoBehaviour
         {
             PaintCanvas();
         }
-    }
-
-    private void StartPainting()
-    {
-        InitilizeCanvas();
-        canPaint = true;
-    }
-    private void StopPainting()
-    {
-        canPaint = false;
-        EventSystem.instance.paintingStarted -= StartPainting;
-        EventSystem.instance.gameEnded -= StopPainting;
-        this.enabled = false;
-    }
-
-    void InitilizeCanvas()
-    {
-        // Initilize the canvas
-        canvas = new Transform[col, row];
-
-        //Skip first 6
-        var child = 5;
-        var unpaintable = 0;
-
-        for (int i = 0; i < col; i++)
-        {
-            for (int j = 0; j < row; j++)
-            {
-                // Initilize the elements of the canvas array
-                canvas[i, j] = transform.parent.GetChild(child);
-
-                // If the element is unpaintable count it
-                if (canvas[i, j].tag.Equals("Unpaintable"))
-                    unpaintable++;
-
-                child++;
-            }
-        }
-
-        // Calculate how many paintable elements there are
-        total = (col * row) - unpaintable;
     }
 
     private void PaintCanvas()
@@ -109,6 +69,44 @@ public class BrushController : MonoBehaviour
 
     }
 
+    private void PaintObject()
+    {
+        // Paint the object to red
+        target.GetComponent<MeshRenderer>().material = Paint_Mat;
+
+        // Mark it as painted
+        target.tag = "painted";
+
+        // Increment the painted count
+        painted += 1f;
+
+        // Calculate the painted in percent
+        var percent = (painted / total) * 100;
+
+        //Notify the EventSystem that percent is updated
+        EventSystem.instance.UpdatePercent((int)percent);
+    }
+
+    private bool Check_if_Movable()
+    {
+        if ((brush_col - (int)input.y >= 0) && 
+            (brush_col - (int)input.y < col) && 
+            (brush_row + (int)input.x >= 0) && 
+            (brush_row + (int)input.x < row) && 
+            (canvas[brush_col - (int)input.y, brush_row + (int)input.x].tag.Equals("pixel") || canvas[brush_col - (int)input.y, brush_row + (int)input.x].tag.Equals("painted")))
+        {
+            brush_col -= (int)input.y;
+            brush_row += (int)input.x;
+            target = canvas[brush_col, brush_row];
+            isMoving = true;
+            return false;
+        }
+
+        else
+            return true;
+
+    }
+
     private void GetInput()
     {
         if (Input.GetMouseButtonDown(0))
@@ -135,46 +133,45 @@ public class BrushController : MonoBehaviour
             Check_if_Movable();
         }
     }
-    
-    void PaintObject()
+
+    private void StartPainting()
     {
-        // Paint the object to red
-        target.GetComponent<MeshRenderer>().material = Paint_Mat;
-
-        // Mark it as painted
-        target.tag = "painted";
-
-        // Increment the painted count
-        painted += 1f;
-
-        // Calculate the painted in percent
-        var percent = (painted / total) * 100;
-
-        //Notify the EventSystem that percent is updated
-        EventSystem.instance.UpdatePercent((int)percent);
-
-        if (percent == 100)
-            EventSystem.instance.EndGame();
-        
+        InitilizeCanvas();
+        canPaint = true;
+    }
+    private void StopPainting()
+    {
+        canPaint = false;
+        EventSystem.instance.paintingStarted -= StartPainting;
+        EventSystem.instance.gameEnded -= StopPainting;
+        this.enabled = false;
     }
 
-    bool Check_if_Movable()
+    private void InitilizeCanvas()
     {
-        if ((brush_col - (int)input.y >= 0) && 
-            (brush_col - (int)input.y < col) && 
-            (brush_row + (int)input.x >= 0) && 
-            (brush_row + (int)input.x < row) && 
-            (canvas[brush_col - (int)input.y, brush_row + (int)input.x].tag.Equals("pixel") || canvas[brush_col - (int)input.y, brush_row + (int)input.x].tag.Equals("painted")))
+        // Initilize the canvas
+        canvas = new Transform[col, row];
+
+        //Skip first 6
+        var child = 5;
+        var unpaintable = 0;
+
+        for (int i = 0; i < col; i++)
         {
-            brush_col -= (int)input.y;
-            brush_row += (int)input.x;
-            target = canvas[brush_col, brush_row];
-            isMoving = true;
-            return false;
+            for (int j = 0; j < row; j++)
+            {
+                // Initilize the elements of the canvas array
+                canvas[i, j] = transform.parent.GetChild(child);
+
+                // If the element is unpaintable count it
+                if (canvas[i, j].tag.Equals("Unpaintable"))
+                    unpaintable++;
+
+                child++;
+            }
         }
 
-        else
-            return true;
-
+        // Calculate how many paintable elements there are
+        total = (col * row) - unpaintable;
     }
 }

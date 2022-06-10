@@ -10,10 +10,11 @@ public abstract class CharacterController : MonoBehaviour
     protected float clampValue = 10f;
     protected float input;
     protected Vector3 respawnPos { get { return new Vector3(Random.Range(-9, 9), 0f, 13f); } }
-    bool isRunning = false;
+    protected bool isRunning = false;
 
     private void Start() 
     {
+        //Register to the appropriate event
         EventSystem.instance.runningStarted += StartRunning;
         EventSystem.instance.runningStopped += StopRunning;
     }

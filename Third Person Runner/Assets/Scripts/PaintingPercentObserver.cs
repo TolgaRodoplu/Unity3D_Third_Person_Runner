@@ -7,6 +7,7 @@ public class PaintingPercentObserver : MonoBehaviour
 {
     private void Start()
     {
+        //Register to the appropriate event
         EventSystem.instance.percentUpdated += ObservePercent;
     }
 

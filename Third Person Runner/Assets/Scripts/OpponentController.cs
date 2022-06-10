@@ -4,37 +4,36 @@ using UnityEngine;
 
 public class OpponentController : CharacterController
 {
-    public Transform ray_origin;
-    float sense_distance = 15f;
-    float map_border = 9f;
-
+    public Transform rayOrigin;
+    private float senseDistance = 15f;
+    private float mapBorder = 9f;
 
     private void Update()
     {
-        Avoid();
+        if(isRunning)
+            Avoid();
     }
-    void Avoid()
+
+    private void Avoid()
     {
         //Define a ray in the direction of forward
-        Ray ray_forward = new Ray(ray_origin.position, transform.forward);
+        Ray ray_forward = new Ray(rayOrigin.position, transform.forward);
         RaycastHit hit;
-
-
 
         //Check if the Ray hit an object and the object that it hit is an obstacle if not try to stay in the middle
         if ((Physics.Raycast(ray_forward, out hit)) && (hit.collider.tag.Equals("obstacle")))
         {
             //Check if the object is close enough to react if not do not react
-            if ((Vector3.Distance(hit.point, transform.position) < sense_distance))
+            if ((Vector3.Distance(hit.point, transform.position) < senseDistance))
             {
 
                 //Check if the character is too close to the edge of the arena if it is dodge to the opposite side
-                if (transform.position.x >= map_border)
+                if (transform.position.x >= mapBorder)
                 {
                     input = -1f;
                 }
 
-                else if (transform.position.x <= -map_border)
+                else if (transform.position.x <= -mapBorder)
                 {
                     input = 1f;
                 }
@@ -98,7 +97,6 @@ public class OpponentController : CharacterController
         {
             StopRunning();
         }
-
     }
 
 }

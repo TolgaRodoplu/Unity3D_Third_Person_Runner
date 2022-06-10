@@ -5,11 +5,12 @@ using UnityEngine;
 
 public class SortPlayers : MonoBehaviour
 {
-    Transform[] characters;
-    int playerIndex = 0;
-
+    private Transform[] characters;
+    private int playerIndex = 0;
+    private bool isSorting = false;
     private void Start()
     {
+        //Register to the appropriate event
         EventSystem.instance.runningStarted += StartSort;
         EventSystem.instance.runningStopped += EndSort;
     }
@@ -17,32 +18,31 @@ public class SortPlayers : MonoBehaviour
     private void StartSort()
     {
         InitilizeCharacters();
-        StartCoroutine(Sort());
+        isSorting = true;
     }
 
-    void InitilizeCharacters()
+    private void Update()
     {
+        if(isSorting)
+        {
+            SortAlgoritm();
 
+            //Notify the EventSystem that Rank is Updated
+            EventSystem.instance.UpdateRank((playerIndex));
+        }
+        
+    }
+
+    //Initilize the characters array
+    private void InitilizeCharacters()
+    {
         characters = new Transform[transform.childCount];
 
         for (int i = 0; i < characters.Length; i++)
             characters[i] = transform.GetChild(i);
     }
-    
-    IEnumerator Sort()
-    {
-        while (true)
-        {
-            
-            SortAlgoritm();
 
-            //Notify the EventSystem that Rank is Updated
-            EventSystem.instance.UpdateRank((playerIndex));
-
-            yield return null;
-        }
-    }
-
+    //Sort the players based on their z value
     private void SortAlgoritm()
     {
         for (int i = 0; i < characters.Length; i++)
@@ -67,11 +67,12 @@ public class SortPlayers : MonoBehaviour
             }
         }
     }
+
     private void EndSort()
     {
         EventSystem.instance.runningStarted -= StartSort;
         EventSystem.instance.runningStopped -= EndSort;
-        StopCoroutine(Sort());
+        isSorting = false;
         this.enabled = false;
     }
 }

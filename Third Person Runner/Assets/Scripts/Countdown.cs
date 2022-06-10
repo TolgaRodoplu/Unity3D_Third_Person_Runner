@@ -6,18 +6,18 @@ public class Countdown : MonoBehaviour
 {
     public int countdownTime = 3;
 
-    private void Start()
+    void Start()
     {
-        //Register to the gameStarted event
-        EventSystem.instance.gameStarted += CountdownStart;
+        //Register to the appropriate event
+        EventSystem.instance.countdownStarted += CountdownStart;
     }
 
-    void CountdownStart()
+    private void CountdownStart()
     {
         StartCoroutine(CountdownTimer());
     }
 
-    IEnumerator CountdownTimer()
+    private IEnumerator CountdownTimer()
     {
         //Play the countdown audio
         FindObjectOfType<AudioManeger>().Play("Countdown");
